@@ -8,7 +8,9 @@ use App\Http\Controllers\PointTransactionController;
 use App\Http\Controllers\SchoolClassController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StudentPointController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+
 
 Route::middleware('guest')->group(function () {
     Route::get('/', [AuthController::class, 'showLogin'])->name('login');
@@ -29,6 +31,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
     Route::resource('point-rules', PointRuleController::class)
         ->except(['show']);
+
+    Route::resource('users', UserController::class);
 });
 
 Route::middleware(['auth', 'role:admin,teacher'])->group(function() {

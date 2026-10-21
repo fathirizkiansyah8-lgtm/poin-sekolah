@@ -1,61 +1,67 @@
 <div class="row g-3">
-    <div class="col-md-3">
-        <label class="form-label">Kode</label>
-        <input name="code" class="form-control @error('code') is-invalid @enderror"
-            value="{{ old('code', $pointRule->code ?? '') }}">
-        @error('code')
-        <div class="invalid-feedback">{{ $message }}</div> @enderror
-    </div>
-    <div class="col-md-3">
-        <label class="form-label">Jenis</label>
-        <select name="type" class="form-select @error('type') is-invalid @enderror">
-            <option value="violation" @selected(
-                old('type', $pointRule->type ?? '') ===
-                'violation'
-            )>Pelanggaran</option>
-            <option value="reward" @selected(
-                old('type', $pointRule->type ?? '') ===
-                'reward'
-            )>Reward</option>
-        </select>
-        @error('type')
-        <div class="invalid-feedback">{{ $message }}</div> @enderror
-    </div>
+    <!-- Role / Peran -->
     <div class="col-md-6">
-        <label class="form-label">Kategori</label>
-        <input name="category" class="form-control @error('category') is-invalid @enderror"
-            value="{{ old('category', $pointRule->category ?? '') }}">
-        @error('category')
+        <label class="form-label">Role / Peran</label>
+        <select name="role" class="form-select @error('role') is-invalid @enderror" required>
+            <option value="teacher" @selected(old('role', $user->role ?? '') === 'teacher')>Guru (Teacher)</option>
+            <option value="admin" @selected(old('role', $user->role ?? '') === 'admin')>Admin</option>
+        </select>
+        @error('role')
         <div class="invalid-feedback">{{ $message }}</div> @enderror
     </div>
-    <div class="col-md-8">
-        <label class="form-label">Nama Aturan</label>
-        <input name="name" class="form-control @error('name') is-invalid @enderror"
-            value="{{ old('name', $pointRule->name ?? '') }}">
+
+    <!-- NIP -->
+    <div class="col-md-6">
+        <label class="form-label">NIP (Opsional)</label>
+        <input type="text" name="nip" class="form-control @error('nip') is-invalid @enderror"
+            value="{{ old('nip', $user->nip ?? '') }}" placeholder="Masukkan NIP jika ada">
+        @error('nip')
+        <div class="invalid-feedback">{{ $message }}</div> @enderror
+    </div>
+
+    <!-- Nama Lengkap -->
+    <div class="col-md-6">
+        <label class="form-label">Nama Lengkap</label>
+        <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
+            value="{{ old('name', $user->name ?? '') }}" required placeholder="Nama Lengkap Pengguna">
         @error('name')
         <div class="invalid-feedback">{{ $message }}</div> @enderror
     </div>
-    <div class="col-md-4">
-        <label class="form-label">Poin</label>
-        <input type="number" min="1" name="points" class="form-control @error('points') is-invalid @enderror"
-            value="{{ old('points', $pointRule->points ?? 1) }}">
-        @error('points')
+
+    <!-- Username / Nama Panggilan -->
+    <div class="col-md-6">
+        <label class="form-label">Username / Nama Panggilan</label>
+        <input type="text" name="username" class="form-control @error('username') is-invalid @enderror"
+            value="{{ old('username', $user->username ?? '') }}" required placeholder="Contoh: Fathi">
+        @error('username')
         <div class="invalid-feedback">{{ $message }}</div> @enderror
     </div>
-    <div class="col-12">
-        <label class="form-label">Deskripsi</label>
-        <textarea name="description" rows="3" class="form-control @error('description') is-invalid @enderror">{{ old(
-    'description',
-    $pointRule->description ?? ''
-) }}</textarea>
-        @error('description')
+
+    <!-- Email -->
+    <div class="col-md-6">
+        <label class="form-label">Email (Untuk Login)</label>
+        <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
+            value="{{ old('email', $user->email ?? '') }}" required placeholder="alamat@email.com">
+        @error('email')
         <div class="invalid-feedback">{{ $message }}</div> @enderror
     </div>
-    <div class="col-12">
-        <div class="form-check">
-            <input type="checkbox" name="is_active" value="1" class="form-check-input" id="is_active"
-                @checked(old('is_active', $pointRule->is_active ?? true))>
-            <label class="form-check-label" for="is_active">Aturan aktif</label>
-        </div>
+
+    <!-- Password -->
+    <div class="col-md-6">
+        <label class="form-label">Password {{ isset($user) ? '(kosongkan jika tidak diubah)' : '' }}</label>
+        <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" {{ isset($user) ? '' : 'required' }} placeholder="******">
+        @error('password')
+        <div class="invalid-feedback">{{ $message }}</div> @enderror
+    </div>
+
+    <!-- Status -->
+    <div class="col-md-6">
+        <label class="form-label">Status</label>
+        <select name="status" class="form-select @error('status') is-invalid @enderror" required>
+            <option value="active" @selected(old('status', $user->status ?? 'active') === 'active')>Aktif</option>
+            <option value="inactive" @selected(old('status', $user->status ?? '') === 'inactive')>Tidak Aktif</option>
+        </select>
+        @error('status')
+        <div class="invalid-feedback">{{ $message }}</div> @enderror
     </div>
 </div>

@@ -33,10 +33,13 @@
             @endif
 
             @if (auth()->user()->role === 'admin')
+
                 <a class="app-nav-link {{ request()->routeIs('classes.*') ? 'active' : '' }}"
                     href="{{ route('classes.index') }}">Kelas</a>
                 <a class="app-nav-link {{ request()->routeIs('point-rules.*') ? 'active' : '' }}"
                     href="{{ route('point-rules.index') }}">Aturan Poin</a>
+                <a class="app-nav-link {{ request()->routeIs('users.*') ? 'active' : '' }}"
+                    href="{{ route('users.index') }}">Pengguna</a> 
                 
             @endif
             @if (auth()->user()->role === 'student')

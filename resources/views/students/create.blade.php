@@ -1,6 +1,5 @@
 @extends('layouts.app')
 @section('title', 'Tambah Siswa')
-
 @section('content')
 <div class="mb-4">
     <h1 class="page-title h3">Tambah Siswa</h1>
