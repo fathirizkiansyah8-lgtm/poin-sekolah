@@ -24,7 +24,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::resource('classes', SchoolClassController::class)->except(['show']);
+    Route::resource('classes', SchoolClassController::class);
 
     Route::resource('students', StudentController::class)
         ->except(['index', 'show']);

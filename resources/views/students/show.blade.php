@@ -5,47 +5,70 @@
         <div>
             <h1 class="page-title h3">{{ $student->user->name }}</h1>
             <p class="page-subtitle">
-                NIS {{ $student->nis }} · {{ $student->schoolClass->name }}
+                <i class="bi bi-card-text me-1"></i>NIS {{ $student->nis }}
+                &nbsp;·&nbsp;
+                <i class="bi bi-building me-1"></i>{{ $student->schoolClass->name }}
             </p>
         </div>
-        <a href="{{ route('students.index') }}" class="btn btn-outline-secondary">Kembali</a>
+        <a href="{{ route('students.index') }}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left me-1"></i>Kembali
+        </a>
     </div>
+
+    {{-- Stat Cards --}}
     <div class="row g-3 mb-4">
         <div class="col-md-4">
             <div class="stat-card danger h-100">
-                <div class="card-body p-4">
-                    <div class="stat-label">Poin Pelanggaran</div>
-                    <div class="stat-value text-danger">{{ $summary['violation_points'] }}</div>
-                    <span class="badge text-bg-danger mt-2">{{ $summary['violation_status'] }}</span>
+                <div class="card-body p-4 d-flex gap-3 align-items-start">
+                    <div class="stat-icon icon-danger">
+                        <i class="bi bi-exclamation-triangle-fill"></i>
+                    </div>
+                    <div>
+                        <div class="stat-label">Poin Pelanggaran</div>
+                        <div class="stat-value text-danger">{{ $summary['violation_points'] }}</div>
+                        <span class="badge text-bg-danger mt-2">{{ $summary['violation_status'] }}</span>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="col-md-4">
             <div class="stat-card success h-100">
-                <div class="card-body p-4">
-                <div class="stat-label">Poin Reward</div>
-                <div class="stat-value text-success">{{ $summary['reward_points'] }}</div>
-                <span class="badge text-bg-success mt-2">{{ $summary['reward_level'] }}</span>
+                <div class="card-body p-4 d-flex gap-3 align-items-start">
+                    <div class="stat-icon icon-success">
+                        <i class="bi bi-trophy-fill"></i>
+                    </div>
+                    <div>
+                        <div class="stat-label">Poin Reward</div>
+                        <div class="stat-value text-success">{{ $summary['reward_points'] }}</div>
+                        <span class="badge text-bg-success mt-2">{{ $summary['reward_level'] }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-card h-100">
+                <div class="card-body p-4 d-flex gap-3 align-items-start">
+                    <div class="stat-icon icon-primary">
+                        <i class="bi bi-bar-chart-fill"></i>
+                    </div>
+                    <div>
+                        <div class="stat-label">Net Point</div>
+                        <div class="stat-value">{{ $summary['net_points'] }}</div>
+                        <span class="badge text-bg-secondary mt-2">Indikator informatif</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-md-4">
-        <div class="stat-card h-100">
-            <div class="card-body p-4">
-                <div class="stat-label">Net Point</div>
-                <div class="stat-value">{{ $summary['net_points'] }}</div>
-                <span class="badge text-bg-secondary mt-2">Indikator informatif</span>
-            </div>
-        </div>
-    </div>
-    </div>
+
+    {{-- Riwayat Poin --}}
     <div class="app-card overflow-hidden mb-4">
-        <div class="card-header bg-white border-0 px-4 pt-4 pb-3">
-            <h5 class="mb-0">Riwayat Poin</h5>
+        <div class="card-header">
+            <h6 class="section-title mb-0"><i class="bi bi-clock-history me-2 text-primary"></i>Riwayat Poin</h6>
         </div>
         <div class="table-responsive">
             <table class="table table-hover align-middle mb-0">
-                <thead class="table-light">
+                <thead>
                     <tr>
                         <th>Tanggal</th>
                         <th>Jenis</th>
@@ -58,19 +81,27 @@
                 <tbody>
                     @forelse ($transactions as $item)
                         <tr>
-                            <td>{{ $item->occurred_at->format('d/m/Y H:i') }}</td>
+                            <td class="text-nowrap text-muted" style="font-size:0.85rem;">
+                                {{ $item->occurred_at->format('d/m/Y H:i') }}
+                            </td>
                             <td>
                                 <span class="badge {{ $item->type === 'reward' ? 'text-bg-success' : 'text-bg-danger' }}">
                                     {{ $item->type === 'reward' ? 'Reward' : 'Pelanggaran' }}
                                 </span>
                             </td>
                             <td>{{ $item->rule->name }}</td>
-                            <td class="fw-semibold">{{ $item->points }}</td>
-                            <td>{{ $item->recorder->name }}</td>
+                            <td>
+                                <span class="fw-bold {{ $item->type === 'reward' ? 'text-success' : 'text-danger' }}">
+                                    {{ $item->type === 'reward' ? '+' : '-' }}{{ $item->points }}
+                                </span>
+                            </td>
+                            <td class="text-muted" style="font-size:0.88rem;">{{ $item->recorder->name }}</td>
                             <td>
                                 @if ($item->evidence_path)
                                     <a href="{{ asset('storage/' . $item->evidence_path) }}" target="_blank"
-                                        class="btn btn-sm btn-outline-secondary">Lihat</a>
+                                        class="btn btn-sm btn-outline-secondary">
+                                        <i class="bi bi-paperclip me-1"></i>Lihat
+                                    </a>
                                 @else
                                     <span class="text-secondary">-</span>
                                 @endif
@@ -78,8 +109,10 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="text-center text-secondary py-5">Belum ada riwayat
-                                poin.</td>
+                            <td colspan="6" class="text-center text-secondary py-5">
+                                <i class="bi bi-inbox fs-3 d-block mb-2 opacity-50"></i>
+                                Belum ada riwayat poin.
+                            </td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -87,9 +120,15 @@
         </div>
     </div>
     <div class="mb-4">{{ $transactions->links() }}</div>
+
+    {{-- Form Follow Up --}}
     <div class="app-card">
+        <div class="card-header">
+            <h6 class="section-title mb-0">
+                <i class="bi bi-chat-dots me-2 text-primary"></i>Tambah Tindak Lanjut / Apresiasi
+            </h6>
+        </div>
         <div class="card-body p-4">
-            <h5 class="mb-3">Tambah Tindak Lanjut / Apresiasi</h5>
             <form method="POST" action="{{ route('students.follow-ups.store', $student) }}">
                 @csrf
                 <div class="row g-3">
@@ -111,11 +150,12 @@
                     </div>
                     <div class="col-12">
                         <label class="form-label">Catatan</label>
-                        <textarea name="notes" class="form-control" rows="3" required>{{ old('notes')
-        }}</textarea>
+                        <textarea name="notes" class="form-control" rows="3" required>{{ old('notes') }}</textarea>
                     </div>
                 </div>
-                <button class="btn btn-primary mt-3">Simpan Tindak Lanjut</button>
+                <button class="btn btn-primary mt-3">
+                    <i class="bi bi-check2 me-1"></i>Simpan Tindak Lanjut
+                </button>
             </form>
         </div>
     </div>

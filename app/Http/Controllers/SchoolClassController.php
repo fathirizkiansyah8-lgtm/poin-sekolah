@@ -39,9 +39,21 @@ class SchoolClassController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(SchoolClass $class)
     {
-        //
+        $students = $class->students()
+            ->with(['user', 'pointTransactions'])
+            ->where('status', 'active')
+            ->get()
+            ->map(function ($student) {
+                $student->violation_points = $student->pointTransactions
+                    ->where('type', 'violation')->sum('points');
+                $student->reward_points = $student->pointTransactions
+                    ->where('type', 'reward')->sum('points');
+                return $student;
+            });
+
+        return view('classes.show', compact('class', 'students'));
     }
 
     /**
