@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{student,PointTransaction};
+use App\Models\{Student,PointTransaction};
 
 class DashboardController extends Controller
 {
@@ -14,7 +14,7 @@ class DashboardController extends Controller
             return redirect()->route('student.points');
         }
 
-        $totalStudents =student::where('status', 'active')->count();
+        $totalStudents = Student::where('status', 'active')->count();
 
         $todayViolations =PointTransaction::where('type', 'violation')
             ->whereDate('occurred_at', today())
