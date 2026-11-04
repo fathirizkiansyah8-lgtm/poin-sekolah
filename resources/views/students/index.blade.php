@@ -7,11 +7,41 @@
             <p class="page-subtitle">Daftar siswa yang terdaftar pada sistem.</p>
         </div>
         @if (auth()->user()->role === 'admin')
-            <a href="{{ route('students.create') }}" class="btn btn-primary">
-                <i class="bi bi-person-plus me-1"></i>Tambah Siswa
-            </a>
+            <div class="d-flex flex-wrap gap-2">
+                <a href="{{ route('students.export') }}" class="btn btn-outline-success">
+                    <i class="bi bi-file-earmark-arrow-down me-1"></i>Export Excel
+                </a>
+                <a href="{{ route('students.create') }}" class="btn btn-primary">
+                    <i class="bi bi-person-plus me-1"></i>Tambah Siswa
+                </a>
+            </div>
         @endif
     </div>
+
+    @if (auth()->user()->role === 'admin')
+        <div class="app-card mb-3">
+            <div class="card-body p-3 d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+                <div>
+                    <h6 class="section-title mb-1">Import data siswa</h6>
+                    <small class="text-muted">Pilih CSV yang diekspor dari Excel. Kolom wajib: nis, name, email, class_name,
+                        grade, gender, status, password.</small>
+                </div>
+                <div class="d-flex flex-wrap gap-2">
+                    <form method="POST" action="{{ route('students.import') }}" enctype="multipart/form-data"
+                        class="d-flex flex-wrap gap-2">
+                        @csrf
+                        <input type="file" name="file" accept=".csv,.txt,text/csv" class="form-control" required>
+                        <button type="submit" class="btn btn-outline-primary text-nowrap">
+                            <i class="bi bi-file-earmark-arrow-up me-1"></i>Import CSV
+                        </button>
+                        <a href="{{ route('students.template') }}" class="btn btn-outline-success text-nowrap">
+                            <i class="bi bi-file-earmark-arrow-down me-1"></i>Download Template
+                        </a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endif
 
     <div class="app-card mb-3">
         <div class="card-body p-3">
@@ -69,7 +99,8 @@
                                 @endif
                             </td>
                             <td>
-                                <span class="badge {{ $student->status === 'active' ? 'text-bg-success' : 'text-bg-secondary' }}">
+                                <span
+                                    class="badge {{ $student->status === 'active' ? 'text-bg-success' : 'text-bg-secondary' }}">
                                     {{ $student->status === 'active' ? 'Aktif' : 'Tidak Aktif' }}
                                 </span>
                             </td>

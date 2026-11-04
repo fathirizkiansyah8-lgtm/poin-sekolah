@@ -7,6 +7,11 @@
             <p class="page-subtitle">Riwayat poin pelanggaran dan reward siswa.</p>
         </div>
         <div class="d-flex gap-2">
+            @if (auth()->user()->role === 'admin')
+                <a href="{{ route('point-transactions.export', request()->query()) }}" class="btn btn-outline-success">
+                    <i class="bi bi-file-earmark-arrow-down me-1"></i>Export Excel
+                </a>
+            @endif
             <a href="{{ route('point-transactions.create', ['type' => 'violation']) }}" class="btn btn-outline-danger">
                 <i class="bi bi-exclamation-circle me-1"></i>Input Pelanggaran
             </a>

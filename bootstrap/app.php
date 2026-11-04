@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\EnsureSingleActiveSession;
 use App\Http\Middleware\RoleMIddleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -15,6 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
             'role' => RoleMIddleware::class,
+            'single.session' => EnsureSingleActiveSession::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

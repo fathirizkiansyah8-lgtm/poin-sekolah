@@ -121,6 +121,79 @@
     </div>
     <div class="mb-4">{{ $transactions->links() }}</div>
 
+    @if (auth()->user()->role === 'admin')
+        <div class="app-card overflow-hidden mb-4">
+            <div class="card-header">
+                <h6 class="section-title mb-0">
+                    <i class="bi bi-journal-text me-2 text-primary"></i>Riwayat Perubahan Data
+                </h6>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>Waktu</th>
+                            <th>Diubah oleh</th>
+                            <th>Perubahan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($studentChanges as $change)
+                            <tr>
+                                <td class="text-nowrap text-muted" style="font-size:0.85rem;">
+                                    {{ $change->created_at->format('d/m/Y H:i') }}
+                                </td>
+                                <td>
+                                    <div class="fw-semibold">{{ $change->actor_name }}</div>
+                                    <small class="text-muted">
+                                        {{ ['admin' => 'Admin', 'teacher' => 'Guru', 'student' => 'Siswa'][$change->actor_role] ?? $change->actor_role }}
+                                    </small>
+                                </td>
+                                <td>
+                                    @foreach ($change->changes as $field => $values)
+                                        @php
+                                            $labels = [
+                                                'name' => 'Nama',
+                                                'email' => 'Email',
+                                                'nis' => 'NIS',
+                                                'school_class' => 'Kelas',
+                                                'gender' => 'Jenis kelamin',
+                                                'status' => 'Status',
+                                                'password' => 'Password',
+                                            ];
+                                            $displayValues = [
+                                                'L' => 'Laki-laki',
+                                                'P' => 'Perempuan',
+                                                'active' => 'Aktif',
+                                                'inactive' => 'Tidak aktif',
+                                            ];
+                                        @endphp
+                                        <div>
+                                            <span class="fw-semibold">{{ $labels[$field] ?? $field }}:</span>
+                                            @if ($field === 'password')
+                                                Password diubah (nilai dirahasiakan)
+                                            @else
+                                                {{ $displayValues[$values['old']] ?? $values['old'] }}
+                                                &rarr;
+                                                {{ $displayValues[$values['new']] ?? $values['new'] }}
+                                            @endif
+                                        </div>
+                                    @endforeach
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="3" class="text-center text-secondary py-4">
+                                    Belum ada perubahan data yang tercatat.
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    @endif
+
     {{-- Form Follow Up --}}
     <div class="app-card">
         <div class="card-header">

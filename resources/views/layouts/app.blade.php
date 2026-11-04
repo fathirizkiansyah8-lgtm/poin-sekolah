@@ -8,6 +8,80 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.2/font/bootstrap-icons.min.css">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <style>
+        html.single-tab-blocked body > * {
+            visibility: hidden !important;
+        }
+
+        html.single-tab-blocked::after {
+            content: "Akun ini sedang dibuka di tab lain. Tutup tab tersebut untuk melanjutkan.";
+            position: fixed;
+            inset: 0;
+            z-index: 99999;
+            display: grid;
+            place-items: center;
+            padding: 2rem;
+            background: #f4f6fa;
+            color: #233047;
+            font: 600 1rem/1.5 system-ui, sans-serif;
+            text-align: center;
+        }
+    </style>
+    <script>
+        (() => {
+            const lockName = 'point-sekolah-account-{{ auth()->id() }}';
+            const blockedClass = 'single-tab-blocked';
+            const blockTab = () => document.documentElement.classList.add(blockedClass);
+
+            if (navigator.locks?.request) {
+                let releaseLock;
+
+                window.addEventListener('pagehide', () => releaseLock?.(), { once: true });
+
+                navigator.locks.request(lockName, { mode: 'exclusive', ifAvailable: true }, async (lock) => {
+                    if (!lock) {
+                        blockTab();
+                        return;
+                    }
+
+                    await new Promise((resolve) => {
+                        releaseLock = resolve;
+                    });
+                }).catch(blockTab);
+
+                return;
+            }
+
+            try {
+                const storageKey = `${lockName}-fallback`;
+                const token = crypto.randomUUID?.() ?? `${Date.now()}-${Math.random()}`;
+                const current = JSON.parse(localStorage.getItem(storageKey) ?? 'null');
+
+                if (current && current.expiresAt > Date.now()) {
+                    blockTab();
+                    return;
+                }
+
+                const writeLock = () => localStorage.setItem(storageKey, JSON.stringify({
+                    token,
+                    expiresAt: Date.now() + 15000,
+                }));
+
+                writeLock();
+                const heartbeat = window.setInterval(writeLock, 5000);
+
+                window.addEventListener('pagehide', () => {
+                    window.clearInterval(heartbeat);
+
+                    if (JSON.parse(localStorage.getItem(storageKey) ?? 'null')?.token === token) {
+                        localStorage.removeItem(storageKey);
+                    }
+                }, { once: true });
+            } catch {
+                blockTab();
+            }
+        })();
+    </script>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark app-navbar no-print">
@@ -57,6 +131,10 @@
                     <a class="app-nav-link {{ request()->routeIs('student.points') ? 'active' : '' }}"
                         href="{{ route('student.points') }}">
                         <i class="bi bi-award"></i> Poin Saya
+                    </a>
+                    <a class="app-nav-link {{ request()->routeIs('student.password.*') ? 'active' : '' }}"
+                        href="{{ route('student.password.edit') }}">
+                        <i class="bi bi-shield-lock"></i> Ubah Password
                     </a>
                 @endif
             </div>
