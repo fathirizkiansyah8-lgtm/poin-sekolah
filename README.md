@@ -1,58 +1,82 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<div align="center">
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# Poin Sekolah
 
-## About Laravel
+**Aplikasi pencatatan poin pelanggaran dan penghargaan siswa.**
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Kelola data siswa, pantau riwayat poin, dan dukung tindak lanjut pembinaan dalam satu aplikasi.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+![PHP 8.3+](https://img.shields.io/badge/PHP-8.3%2B-777BB4?logo=php&logoColor=white)
+![Laravel 13](https://img.shields.io/badge/Laravel-13-FF2D20?logo=laravel&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-8-646CFF?logo=vite&logoColor=white)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+</div>
 
-## Learning Laravel
+## Tentang Aplikasi
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Poin Sekolah membantu sekolah mencatat perilaku positif maupun pelanggaran secara terstruktur. Setiap transaksi terhubung ke siswa dan aturan poin, sehingga staf dapat melihat riwayat serta ringkasan poin dengan lebih mudah.
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Fitur
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+- Ringkasan dashboard untuk siswa aktif, pelanggaran hari ini, dan reward hari ini.
+- Pengelolaan kelas, data siswa, akun pengguna, serta aturan reward dan pelanggaran.
+- Pencatatan dan riwayat transaksi poin siswa.
+- Catatan tindak lanjut untuk siswa.
+- Ringkasan poin pribadi siswa, termasuk status pelanggaran dan level reward.
+- Hak akses yang dibedakan berdasarkan peran pengguna.
 
-## Agentic Development
+### Peran Pengguna
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+| Peran | Akses utama |
+| --- | --- |
+| Admin | Mengelola kelas, siswa, akun, aturan poin, transaksi, dan tindak lanjut. |
+| Guru | Melihat data siswa, mencatat transaksi poin, dan membuat tindak lanjut. |
+| Siswa | Melihat ringkasan dan riwayat poin miliknya sendiri. |
+
+## Teknologi
+
+- PHP 8.3 atau lebih baru
+- Laravel 13
+- SQLite secara default; koneksi database dapat diubah melalui `.env`
+- Vite 8 dan Tailwind CSS 4
+
+## Menjalankan Secara Lokal
+
+Pastikan PHP, Composer, Node.js, dan npm sudah tersedia. Dari terminal:
 
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+git clone <url-repository-anda>
+cd point-sekolah
+composer install
+cp .env.example .env
+php artisan key:generate
+touch database/database.sqlite
+php artisan migrate --seed
+npm install
+npm run build
+php artisan serve
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+Buka alamat yang ditampilkan oleh `php artisan serve` di browser. Untuk pengembangan frontend dengan hot reload, jalankan `npm run dev` di terminal terpisah.
 
-## Contributing
+Konfigurasi awal menggunakan SQLite. Jika memakai MySQL, ubah `DB_CONNECTION` dan pengaturan `DB_*` di `.env`, lalu jalankan migrasi.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Akun Demo
 
-## Code of Conduct
+Seeder demo membuat akun berikut:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+| Peran | Email | Kata sandi |
+| --- | --- | --- |
+| Admin | `fathi@gmail.com` | `password` |
+| Guru | `purmatasri@gmail.com` | `gurubk` |
+| Siswa | `amatmat@gmail.com` | `muridrajin` |
 
-## Security Vulnerabilities
+Akun ini hanya untuk pengembangan lokal. Ganti atau hapus kredensial demo sebelum aplikasi digunakan di lingkungan bersama atau produksi.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Pengujian
 
-## License
+Jalankan seluruh pengujian dengan:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+composer test
+```
