@@ -14,6 +14,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // Behind Railway's proxy: trust X-Forwarded-* so URLs are generated as https.
+        $middleware->trustProxies(at: '*');
+
         $middleware->alias([
             'role' => RoleMIddleware::class,
             'single.session' => EnsureSingleActiveSession::class,
