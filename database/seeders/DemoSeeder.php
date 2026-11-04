@@ -17,41 +17,30 @@ class DemoSeeder extends Seeder
      */
     public function run(): void
     {
-        $class = SchoolClass::create([
-            'name' => 'XI RPL 1',
-            'grade' => 'XI',
-            'major' => 'Rekayasa Perangkat Lunak',
-            'academic_year' => '2026/2027',
-        ]);
+        $class = SchoolClass::firstOrCreate(
+            ['name' => 'XI RPL 1', 'academic_year' => '2026/2027'],
+            ['grade' => 'XI', 'major' => 'Rekayasa Perangkat Lunak'],
+        );
 
-        User::create([
-            'name' => 'Fathi',
-            'email' => 'fathi@gmail.com',
-            'password' => Hash::make('password'),
-            'role' => 'admin',
-        ]);
+        User::firstOrCreate(
+            ['email' => 'fathi@gmail.com'],
+            ['name' => 'Fathi', 'password' => Hash::make('password'), 'role' => 'admin'],
+        );
 
-        User::create([
-            'name' => 'Octa',
-            'email' => 'purmatasri@gmail.com',
-            'password' => Hash::make('gurubk'),
-            'role' => 'teacher',
-        ]);
+        User::firstOrCreate(
+            ['email' => 'purmatasri@gmail.com'],
+            ['name' => 'Octa', 'password' => Hash::make('gurubk'), 'role' => 'teacher'],
+        );
 
-        $studentUser = User::create([
-            'name' => 'Ahmad',
-            'email' => 'amatmat@gmail.com',
-            'password' => Hash::make('muridrajin'),
-            'role' => 'student',
-        ]);
+        $studentUser = User::firstOrCreate(
+            ['email' => 'amatmat@gmail.com'],
+            ['name' => 'Ahmad', 'password' => Hash::make('muridrajin'), 'role' => 'student'],
+        );
 
-        Student::create([
-            'user_id' => $studentUser->id,
-            'school_class_id' => $class->id,
-            'nis' => '260001',
-            'gender' => 'L',
-            'status' => 'active',
-        ]);
+        Student::firstOrCreate(
+            ['user_id' => $studentUser->id],
+            ['school_class_id' => $class->id, 'nis' => '260001', 'gender' => 'L', 'status' => 'active'],
+        );
 
         $rules = [
             ['V001','violation','Disiplin','Terlambat masuk sekolah',5],
@@ -68,7 +57,7 @@ class DemoSeeder extends Seeder
         ];
 
         foreach ($rules as [$code, $type, $category, $name, $points]) {
-            PointRule::create(compact('code', 'type', 'category', 'name', 'points'));
+            PointRule::firstOrCreate(['code' => $code], compact('type', 'category', 'name', 'points'));
         }
     }
 }
