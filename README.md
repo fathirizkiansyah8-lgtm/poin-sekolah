@@ -2,9 +2,9 @@
 
 # Poin Sekolah
 
-**Aplikasi pencatatan poin pelanggaran dan penghargaan siswa.**
+**Sistem pencatatan poin pelanggaran, reward, dan tindak lanjut siswa.**
 
-Kelola data siswa, pantau riwayat poin, dan dukung tindak lanjut pembinaan dalam satu aplikasi.
+Kelola data siswa dan kelas, pantau riwayat poin, serta catat perubahan data dalam satu aplikasi.
 
 ![PHP 8.3+](https://img.shields.io/badge/PHP-8.3%2B-777BB4?logo=php&logoColor=white)
 ![Laravel 13](https://img.shields.io/badge/Laravel-13-FF2D20?logo=laravel&logoColor=white)
@@ -14,24 +14,26 @@ Kelola data siswa, pantau riwayat poin, dan dukung tindak lanjut pembinaan dalam
 
 ## Tentang Aplikasi
 
-Poin Sekolah membantu sekolah mencatat perilaku positif maupun pelanggaran secara terstruktur. Setiap transaksi terhubung ke siswa dan aturan poin, sehingga staf dapat melihat riwayat serta ringkasan poin dengan lebih mudah.
+Poin Sekolah digunakan untuk mengelola data siswa dan mencatat perilaku positif maupun pelanggaran secara terstruktur. Transaksi terhubung dengan siswa, aturan poin, dan petugas pencatat sehingga riwayat serta ringkasan poin dapat ditinjau kembali.
 
-### Fitur
+## Fitur
 
-- Ringkasan dashboard untuk siswa aktif, pelanggaran hari ini, dan reward hari ini.
-- Pengelolaan kelas, data siswa, akun pengguna, serta aturan reward dan pelanggaran.
-- Pencatatan dan riwayat transaksi poin siswa.
-- Catatan tindak lanjut untuk siswa.
-- Ringkasan poin pribadi siswa, termasuk status pelanggaran dan level reward.
-- Hak akses yang dibedakan berdasarkan peran pengguna.
+- Dashboard dengan jumlah siswa aktif, pelanggaran hari ini, dan reward hari ini.
+- Pengelolaan kelas, data siswa, akun admin/guru, dan aturan poin.
+- Pencatatan reward dan pelanggaran serta riwayat transaksi dengan filter jenis, siswa, kelas, dan tanggal.
+- Catatan tindak lanjut siswa dan ringkasan poin pribadi siswa.
+- Riwayat perubahan data siswa yang mencatat waktu dan pelakunya. Perubahan password hanya dicatat sebagai event; nilai password tidak disimpan dalam log.
+- Import data siswa dari CSV yang dapat dibuka di Excel. Data kelas dipasangkan berdasarkan nama kelas dan tingkat (`class_name` + `grade`), sehingga nama kelas yang sama pada tingkat berbeda tidak tertukar.
+- Export data siswa dan export transaksi poin berdasarkan filter yang sedang dipilih.
+- Pembatasan satu sesi aktif per akun. Login dari perangkat lain menggantikan sesi sebelumnya; login diblokir selama 60 detik setelah tiga password salah berturut-turut.
 
-### Peran Pengguna
+## Hak Akses
 
 | Peran | Akses utama |
 | --- | --- |
-| Admin | Mengelola kelas, siswa, akun, aturan poin, transaksi, dan tindak lanjut. |
-| Guru | Melihat data siswa, mencatat transaksi poin, dan membuat tindak lanjut. |
-| Siswa | Melihat ringkasan dan riwayat poin miliknya sendiri. |
+| Admin | Mengelola kelas, siswa, pengguna, aturan poin, impor/ekspor data, transaksi, dan riwayat perubahan siswa. |
+| Guru | Melihat data siswa, mencatat transaksi poin, dan menambahkan tindak lanjut. |
+| Siswa | Melihat ringkasan dan riwayat poin sendiri serta mengganti password akunnya. |
 
 ## Teknologi
 
@@ -40,7 +42,7 @@ Poin Sekolah membantu sekolah mencatat perilaku positif maupun pelanggaran secar
 - SQLite secara default; koneksi database dapat diubah melalui `.env`
 - Vite 8 dan Tailwind CSS 4
 
-## Menjalankan Secara Lokal
+## Persiapan Lokal
 
 Pastikan PHP, Composer, Node.js, dan npm sudah tersedia. Dari terminal:
 
@@ -57,21 +59,47 @@ npm run build
 php artisan serve
 ```
 
-Buka alamat yang ditampilkan oleh `php artisan serve` di browser. Untuk pengembangan frontend dengan hot reload, jalankan `npm run dev` di terminal terpisah.
+`Buka alamat lokal yang ditampilkan oleh `php artisan serve`. Untuk pengembangan frontend dengan hot reload, jalankan `npm run dev` di terminal terpisah.
 
-Konfigurasi awal menggunakan SQLite. Jika memakai MySQL, ubah `DB_CONNECTION` dan pengaturan `DB_*` di `.env`, lalu jalankan migrasi.
+Konfigurasi `.env.example` menggunakan SQLite. Untuk database lain, atur `DB_CONNECTION` dan variabel `DB_*` yang sesuai di `.env` sebelum menjalankan migrasi.
 
 ## Akun Demo
 
-Seeder demo membuat akun berikut:
+Seeder demo menyediakan akun berikut:
 
-| Peran | Email | Kata sandi |
+| Peran | Email | Password |
 | --- | --- | --- |
 | Admin | `fathi@gmail.com` | `password` |
 | Guru | `purmatasri@gmail.com` | `gurubk` |
 | Siswa | `amatmat@gmail.com` | `muridrajin` |
 
-Akun ini hanya untuk pengembangan lokal. Ganti atau hapus kredensial demo sebelum aplikasi digunakan di lingkungan bersama atau produksi.
+Gunakan akun demo hanya untuk pengembangan lokal. Ganti kredensial sebelum aplikasi digunakan di lingkungan bersama atau produksi.
+
+## Import Data Siswa
+
+Buka menu **Siswa** sebagai admin, lalu unduh template CSV dari tombol **Download Template**. Template memiliki satu baris contoh; ganti atau hapus baris itu sebelum mengimpor. CSV dapat dibuka dan disimpan melalui Excel.
+
+Kolom template:
+
+| Kolom | Keterangan |
+| --- | --- |
+| `nis` | Nomor induk siswa yang unik. |
+| `name` | Nama siswa. |
+| `email` | Email untuk login; harus unik. |
+| `class_name` | Nama kelas sesuai data menu Kelas. |
+| `grade` | Tingkat kelas. Digunakan bersama `class_name` untuk memilih kelas yang tepat. |
+| `gender` | `L` atau `P`. |
+| `status` | `active` atau `inactive`. |
+| `password` | Wajib untuk siswa baru. Saat memperbarui siswa berdasarkan NIS, boleh dikosongkan agar password tidak berubah. |
+
+Import memperbarui data yang sudah ada berdasarkan NIS. Jika ada baris tidak valid, seluruh file ditolak agar tidak terjadi import sebagian. Untuk akun siswa baru, pastikan nama kelas dan tingkat cocok dengan data kelas yang tersedia.
+
+## Export Data
+
+- **Data siswa:** unduh seluruh data siswa dari tombol **Export Excel** di menu Siswa. Password tidak pernah disertakan dalam file.
+- **Transaksi poin:** unduh dari menu Transaksi Poin sebagai admin. Filter jenis, siswa, kelas, dan tanggal yang aktif akan diterapkan ke hasil export.
+
+File yang diunduh menggunakan format CSV UTF-8 kompatibel Excel, bukan workbook `.xlsx` native.
 
 ## Pengujian
 

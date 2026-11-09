@@ -1,0 +1,143 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1900" height="1900" viewBox="0 0 1900 1900">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L10,4 L0,8 Z" fill="#526b83"/></marker>
+    <style>
+      text { font-family: Arial, Helvetica, sans-serif; fill: #172b3a; }
+      .title { font-size: 30px; font-weight: 700; letter-spacing: 1px; }
+      .subtitle { font-size: 14px; fill: #567084; }
+      .section { font-size: 17px; font-weight: 700; letter-spacing: .8px; fill: #35566d; }
+      .table { fill: #fff; stroke: #3975a5; stroke-width: 1.5; }
+      .sys-table { fill: #fff; stroke: #8b9aaa; stroke-width: 1.5; }
+      .head { fill: #245b88; }
+      .sys-head { fill: #596c7a; }
+      .headtext { font-size: 15px; font-weight: 700; fill: #fff; }
+      .field { font-size: 14px; }
+      .key { font-size: 11px; font-weight: 700; fill: #245b88; }
+      .hint { font-size: 11px; fill: #5b6d7a; }
+      .edge { fill: none; stroke: #526b83; stroke-width: 1.7; }
+      .edge-label { font-size: 11px; fill: #40596d; }
+      .rule { stroke: #dce5eb; stroke-width: 1; }
+    </style>
+  </defs>
+  <rect width="1900" height="1900" fill="#f5f8fa"/>
+  <g transform="translate(50 0)">
+  <text class="title" x="900" y="48" text-anchor="middle">ENTITY RELATIONSHIP DIAGRAM</text>
+  <text class="subtitle" x="900" y="74" text-anchor="middle">WEB POIN SEKOLAH · berdasarkan seluruh migration proyek</text>
+  <text class="section" x="50" y="110">TABEL APLIKASI</text>
+
+  <g aria-label="Relasi tabel aplikasi">
+    <path d="M400 300 H500" fill="none" stroke="#526b83" stroke-width="2"/><text class="edge-label" x="435" y="287">akun siswa</text>
+    <path d="M400 700 C445 700 455 490 500 490" fill="none" stroke="#526b83" stroke-width="2"/><text class="edge-label" x="418" y="602">kelas</text>
+    <path d="M850 340 H1000" fill="none" stroke="#526b83" stroke-width="2"/><text class="edge-label" x="886" y="327">riwayat perubahan</text>
+    <path d="M850 475 C920 475 930 665 1000 665" fill="none" stroke="#526b83" stroke-width="2"/><text class="edge-label" x="875" y="558">transaksi poin</text>
+    <path d="M850 820 H1000" fill="none" stroke="#526b83" stroke-width="2"/><text class="edge-label" x="888" y="807">aturan poin</text>
+    <path d="M1350 735 H1450" fill="none" stroke="#526b83" stroke-width="2"/><text class="edge-label" x="1360" y="722">transaksi terkait</text>
+    <path d="M850 515 H1425 V555 H1450" fill="none" stroke="#526b83" stroke-width="2"/><text class="edge-label" x="1115" y="505">tindak lanjut siswa</text>
+    <path d="M400 160 H940 V180 H1000" fill="none" stroke="#526b83" stroke-width="2"/><text class="edge-label" x="640" y="148">aktor perubahan</text>
+    <path d="M400 220 H455 V1045 H1170 V950" fill="none" stroke="#526b83" stroke-width="2"/><text class="edge-label" x="665" y="1032">pencatat transaksi</text>
+    <path d="M400 180 H430 V125 H1400 V430 H1450" fill="none" stroke="#526b83" stroke-width="2"/><text class="edge-label" x="1110" y="115">penanggung jawab tindak lanjut</text>
+  </g>
+
+  <g transform="translate(50 130)">
+    <rect class="table" width="350" height="390"/><path class="head" d="M0 0H350V32H0Z"/><text class="headtext" x="175" y="22" text-anchor="middle">USERS</text>
+    <text class="key" x="12" y="57">PK</text><text class="field" x="48" y="57">id</text>
+    <text class="field" x="48" y="84">name</text><text class="field" x="48" y="111">email</text><text class="hint" x="240" y="111">UNIQUE</text>
+    <text class="field" x="48" y="138">email_verified_at</text><text class="hint" x="240" y="138">nullable</text>
+    <text class="field" x="48" y="165">password</text><text class="field" x="48" y="192">role</text><text class="hint" x="240" y="192">enum</text>
+    <text class="field" x="48" y="219">username</text><text class="hint" x="240" y="219">nullable</text>
+    <text class="field" x="48" y="246">status</text><text class="hint" x="240" y="246">enum</text>
+    <text class="field" x="48" y="273">nip</text><text class="hint" x="240" y="273">UNIQUE, nullable</text>
+    <text class="field" x="48" y="300">active_session_token</text><text class="hint" x="240" y="300">nullable, index</text>
+    <text class="field" x="48" y="327">remember_token</text><text class="hint" x="240" y="327">nullable</text>
+    <text class="field" x="48" y="363">created_at, updated_at</text>
+  </g>
+  <g transform="translate(50 620)">
+    <rect class="table" width="350" height="195"/><path class="head" d="M0 0H350V32H0Z"/><text class="headtext" x="175" y="22" text-anchor="middle">SCHOOL_CLASSES</text>
+    <text class="key" x="12" y="59">PK</text><text class="field" x="48" y="59">id</text><text class="field" x="48" y="87">name</text>
+    <text class="field" x="48" y="115">grade</text><text class="field" x="48" y="143">major</text><text class="field" x="48" y="171">academic_year · timestamps</text>
+  </g>
+  <g transform="translate(500 250)">
+    <rect class="table" width="350" height="300"/><path class="head" d="M0 0H350V32H0Z"/><text class="headtext" x="175" y="22" text-anchor="middle">STUDENTS</text>
+    <text class="key" x="12" y="59">PK</text><text class="field" x="48" y="59">id</text>
+    <text class="key" x="12" y="88">FK, UK</text><text class="field" x="70" y="88">user_id</text>
+    <text class="key" x="12" y="117">FK</text><text class="field" x="48" y="117">school_class_id</text>
+    <text class="field" x="48" y="146">nis</text><text class="hint" x="240" y="146">UNIQUE</text>
+    <text class="field" x="48" y="175">gender</text><text class="hint" x="240" y="175">enum</text>
+    <text class="field" x="48" y="204">status</text><text class="hint" x="240" y="204">enum, default active</text>
+    <text class="field" x="48" y="243">created_at, updated_at</text>
+  </g>
+  <g transform="translate(500 700)">
+    <rect class="table" width="350" height="255"/><path class="head" d="M0 0H350V32H0Z"/><text class="headtext" x="175" y="22" text-anchor="middle">POINT_RULES</text>
+    <text class="key" x="12" y="59">PK</text><text class="field" x="48" y="59">id</text>
+    <text class="field" x="48" y="87">code</text><text class="hint" x="240" y="87">UNIQUE</text>
+    <text class="field" x="48" y="115">type</text><text class="hint" x="240" y="115">enum</text>
+    <text class="field" x="48" y="143">category</text><text class="field" x="48" y="171">name, points</text>
+    <text class="field" x="48" y="199">description</text><text class="hint" x="240" y="199">nullable</text>
+    <text class="field" x="48" y="227">is_active · timestamps</text>
+  </g>
+  <g transform="translate(1000 130)">
+    <rect class="table" width="350" height="250"/><path class="head" d="M0 0H350V32H0Z"/><text class="headtext" x="175" y="22" text-anchor="middle">STUDENT_CHANGES</text>
+    <text class="key" x="12" y="59">PK</text><text class="field" x="48" y="59">id</text>
+    <text class="key" x="12" y="87">FK</text><text class="field" x="48" y="87">student_id</text>
+    <text class="key" x="12" y="115">FK</text><text class="field" x="48" y="115">actor_id</text><text class="hint" x="240" y="115">nullable</text>
+    <text class="field" x="48" y="143">actor_name, actor_role</text><text class="field" x="48" y="171">changes</text><text class="hint" x="240" y="171">JSON</text>
+    <text class="field" x="48" y="218">created_at, updated_at</text>
+  </g>
+  <g transform="translate(1000 580)">
+    <rect class="table" width="350" height="370"/><path class="head" d="M0 0H350V32H0Z"/><text class="headtext" x="175" y="22" text-anchor="middle">POINT_TRANSACTIONS</text>
+    <text class="key" x="12" y="59">PK</text><text class="field" x="48" y="59">id</text>
+    <text class="key" x="12" y="88">FK</text><text class="field" x="48" y="88">student_id</text>
+    <text class="key" x="12" y="117">FK</text><text class="field" x="48" y="117">point_rule_id</text>
+    <text class="key" x="12" y="146">FK</text><text class="field" x="48" y="146">recorded_by</text>
+    <text class="field" x="48" y="175">type</text><text class="hint" x="240" y="175">enum</text>
+    <text class="field" x="48" y="204">points, occurred_at</text><text class="field" x="48" y="233">notes</text><text class="hint" x="240" y="233">nullable</text>
+    <text class="field" x="48" y="262">evidence_path</text><text class="hint" x="240" y="262">nullable</text>
+    <text class="field" x="48" y="319">created_at, updated_at</text>
+  </g>
+  <g transform="translate(1450 430)">
+    <rect class="table" width="300" height="350"/><path class="head" d="M0 0H300V32H0Z"/><text class="headtext" x="150" y="22" text-anchor="middle">FOLLOW_UPS</text>
+    <text class="key" x="12" y="59">PK</text><text class="field" x="48" y="59">id</text>
+    <text class="key" x="12" y="88">FK</text><text class="field" x="48" y="88">student_id</text>
+    <text class="key" x="12" y="117">FK</text><text class="field" x="48" y="117">point_transaction_id</text><text class="hint" x="230" y="135">nullable</text>
+    <text class="key" x="12" y="156">FK</text><text class="field" x="48" y="156">handled_by</text>
+    <text class="field" x="48" y="185">follow_up_type</text><text class="field" x="48" y="214">follow_up_date</text>
+    <text class="field" x="48" y="243">notes</text><text class="field" x="48" y="302">created_at, updated_at</text>
+  </g>
+
+  <path class="rule" d="M50 1080H1750"/><text class="section" x="50" y="1115">TABEL INFRASTRUKTUR LARAVEL</text>
+  <text class="subtitle" x="50" y="1138">Tabel bawaan framework, tidak memiliki foreign key aplikasi pada migration proyek.</text>
+  <g transform="translate(50 1170)">
+    <rect class="sys-table" width="390" height="150"/><path class="sys-head" d="M0 0H390V32H0Z"/><text class="headtext" x="195" y="22" text-anchor="middle">PASSWORD_RESET_TOKENS</text>
+    <text class="key" x="12" y="61">PK</text><text class="field" x="48" y="61">email</text><text class="field" x="48" y="91">token</text><text class="field" x="48" y="121">created_at · nullable</text>
+  </g>
+  <g transform="translate(470 1170)">
+    <rect class="sys-table" width="390" height="190"/><path class="sys-head" d="M0 0H390V32H0Z"/><text class="headtext" x="195" y="22" text-anchor="middle">SESSIONS</text>
+    <text class="key" x="12" y="61">PK</text><text class="field" x="48" y="61">id</text><text class="field" x="48" y="89">user_id · nullable, index</text>
+    <text class="field" x="48" y="117">ip_address, user_agent · nullable</text><text class="field" x="48" y="145">payload</text><text class="field" x="48" y="173">last_activity · index</text>
+  </g>
+  <g transform="translate(890 1170)">
+    <rect class="sys-table" width="390" height="150"/><path class="sys-head" d="M0 0H390V32H0Z"/><text class="headtext" x="195" y="22" text-anchor="middle">CACHE</text>
+    <text class="key" x="12" y="61">PK</text><text class="field" x="48" y="61">key</text><text class="field" x="48" y="91">value</text><text class="field" x="48" y="121">expiration · index</text>
+  </g>
+  <g transform="translate(1310 1170)">
+    <rect class="sys-table" width="390" height="150"/><path class="sys-head" d="M0 0H390V32H0Z"/><text class="headtext" x="195" y="22" text-anchor="middle">CACHE_LOCKS</text>
+    <text class="key" x="12" y="61">PK</text><text class="field" x="48" y="61">key</text><text class="field" x="48" y="91">owner</text><text class="field" x="48" y="121">expiration · index</text>
+  </g>
+  <g transform="translate(50 1390)">
+    <rect class="sys-table" width="510" height="205"/><path class="sys-head" d="M0 0H510V32H0Z"/><text class="headtext" x="255" y="22" text-anchor="middle">JOBS</text>
+    <text class="key" x="12" y="61">PK</text><text class="field" x="48" y="61">id</text><text class="field" x="48" y="89">queue · index</text>
+    <text class="field" x="48" y="117">payload</text><text class="field" x="48" y="145">attempts, reserved_at</text><text class="field" x="48" y="173">available_at, created_at</text>
+  </g>
+  <g transform="translate(645 1390)">
+    <rect class="sys-table" width="510" height="205"/><path class="sys-head" d="M0 0H510V32H0Z"/><text class="headtext" x="255" y="22" text-anchor="middle">JOB_BATCHES</text>
+    <text class="key" x="12" y="61">PK</text><text class="field" x="48" y="61">id</text><text class="field" x="48" y="89">name, total_jobs, pending_jobs</text>
+    <text class="field" x="48" y="117">failed_jobs, failed_job_ids</text><text class="field" x="48" y="145">options · nullable</text><text class="field" x="48" y="173">cancelled_at, created_at, finished_at</text>
+  </g>
+  <g transform="translate(1240 1390)">
+    <rect class="sys-table" width="510" height="205"/><path class="sys-head" d="M0 0H510V32H0Z"/><text class="headtext" x="255" y="22" text-anchor="middle">FAILED_JOBS</text>
+    <text class="key" x="12" y="61">PK</text><text class="field" x="48" y="61">id</text><text class="field" x="48" y="89">uuid · UNIQUE</text>
+    <text class="field" x="48" y="117">connection, queue</text><text class="field" x="48" y="145">payload, exception</text>
+    <text class="field" x="48" y="173">failed_at · index(connection, queue, failed_at)</text>
+  </g>
+  </g>
+</svg>
